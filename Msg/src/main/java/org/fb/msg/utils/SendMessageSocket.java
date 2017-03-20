@@ -26,6 +26,7 @@ public class SendMessageSocket {
 	 * @throws Exception 
 	 */
 	public static String sendMsg(String moblile, String content) throws Exception {
+		//短信系统webservice服务
 		String endpoint = "http://192.168.0.1:8080/services/msgService";
 		Service service = new Service();
 		Call call = (Call) service.createCall();

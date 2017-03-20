@@ -14,6 +14,7 @@ import org.fb.msg.entity.PhoneMessageRecord;
 import org.fb.msg.entity.PhoneMsgType;
 import org.fb.msg.enums.SysError;
 import org.fb.msg.utils.RandomUtil;
+import org.fb.msg.utils.SendMessageSocket;
 import org.fb.msg.utils.StringUtils;
 import org.fb.msg.utils.TimeUtil;
 import org.slf4j.Logger;
@@ -109,18 +110,18 @@ public class MsgServiceIpml implements IMsgService{
 			}
 		}
 		//生成验证码
-//		String msgReturn = null;
-//		try {
-//			msgReturn = SendMessageSocket.sendMsg(mobile, phoneMsgType.getTempletPrefix()
-//					+ phoneMsg + phoneMsgType.getTempletSuffix());
-//		} catch (Exception e) {
-//			logger.info("短信发送异常：",e);
-//		}
-//		if(msgReturn == null ){
-//			result.put("returnCode", SysError._01.getName());
-//			result.put("returnDesc", SysError._01.getDesc());
-//			return result;
-//		}
+		String msgReturn = null;
+		try {
+			msgReturn = SendMessageSocket.sendMsg(mobile, phoneMsgType.getTempletPrefix()
+					+ phoneMsg + phoneMsgType.getTempletSuffix());
+		} catch (Exception e) {
+			logger.info("短信发送异常：",e);
+		}
+		if(msgReturn == null ){
+			result.put("returnCode", SysError._01.getName());
+			result.put("returnDesc", SysError._01.getDesc());
+			return result;
+		}
 		if(pmrs != null && pmrs.size() > 0){//执行更新
 			logger.info("更新短信内容:"+phoneMsg);
 			PhoneMessageRecord pmr = pmrs.get(0);
