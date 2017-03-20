@@ -1,0 +1,23 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fb.msg.dao.IPhoneMsgTypeDao">
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" > 
+	    <property name="timeToIdleSeconds" value="3600"/>
+	    <property name="timeToLiveSeconds" value="180"/>
+	    <property name="maxElementsInMemory" value="1000"/>
+	    <property name="memoryStoreEvictionPolicy" value="LRU"/>
+	</cache>
+    <resultMap id="BaseResultMap" type="PhoneMsgType">
+		<id column="MSGTYPE" property="msgType" jdbcType="VARCHAR" />
+		<result column="TEMPLETPREFIX" property="templetPrefix" jdbcType="VARCHAR" />
+		<result column="TEMPLETSUFFIX" property="templetSuffix" jdbcType="VARCHAR" />
+		<result column="LIMITTIMES" property="limitTimes" jdbcType="INTEGER" />
+		<result column="LIMITPERIOD" property="limitPeriod" jdbcType="INTEGER" />
+		<result column="MINSPACE" property="minSpace" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="queryByType" resultMap="BaseResultMap">
+        select * from PhoneMsgType 
+        	where msgtype=#{msgType}
+    </select>
+
+</mapper>

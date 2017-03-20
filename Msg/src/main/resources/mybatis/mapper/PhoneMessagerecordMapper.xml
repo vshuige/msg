@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fb.msg.dao.IPhoneMessageRecordDao">
+    <resultMap id="BaseResultMap" type="PhoneMessageRecord">
+		<id column="SERNO" property="serno" jdbcType="VARCHAR" />
+		<result column="PHONENUM" property="phonenum" jdbcType="VARCHAR" />
+		<result column="PHONEMSG" property="phonemsg" jdbcType="VARCHAR" />
+		<result column="CREATETIME" property="createtime" jdbcType="VARCHAR" />
+		<result column="SENDTIME" property="sendtime" jdbcType="VARCHAR" />
+		<result column="SENDTYPE" property="sendtype" jdbcType="VARCHAR" />
+		<result column="COUNT" property="count" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="CHECKSTATUS" property="checkstatus" jdbcType="VARCHAR" />
+		<result column="CHECKDATE" property="checkdate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="queryByMobileAndType" resultMap="BaseResultMap">
+        select * from PhoneMessageRecord 
+        	where PHONENUM = #{phonenum} and SENDTYPE=#{sendtype}
+        	<if test="phonemsg != null and phonemsg != ''">
+        		and PHONEMSG = #{phonemsg}
+        	</if>
+    </select>
+    
+    <insert id="addPhoneMessage" parameterType="org.fb.msg.entity.PhoneMessageRecord">
+    	insert into PhoneMessageRecord(SERNO,PHONENUM,PHONEMSG,CREATETIME,
+    	SENDTIME,SENDTYPE,COUNT,STATUS)
+    	values(#{pmr.serno},#{pmr.phonenum},#{pmr.phonemsg},#{pmr.createtime},
+    	#{pmr.sendtime},#{pmr.sendtype},#{pmr.count},#{pmr.status})
+    </insert>
+    
+    <update id="updatePhoneMessage" parameterType="org.fb.msg.entity.PhoneMessageRecord">
+    	update PhoneMessageRecord 
+    	set CREATETIME=#{pmr.createtime},SENDTIME=#{pmr.sendtime},STATUS=#{pmr.status},PHONEMSG=#{pmr.phonemsg},
+    		COUNT=COUNT+1
+    	where SERNO=#{pmr.serno}
+    </update>
+
+	<update id="updateCheckInfo" parameterType="org.fb.msg.entity.PhoneMessageRecord">
+    	update PhoneMessageRecord 
+    	set STATUS=#{pmr.status},CHECKDATE=#{pmr.checkdate}
+    	where PHONENUM=#{pmr.phonenum} and SENDTYPE=#{pmr.sendtype}
+    </update>
+    
+    <!-- TODO 修改sql -->
+	<update id="resetCount" parameterType="String">
+    	update PhoneMessageRecord set COUNT='0' where SERNO=#{serno}
+    </update>
+</mapper>
